@@ -15,7 +15,7 @@ exports.findAll = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     if (req.query.hasOwnProperty("sort")) {
       const query =
-        "SELECT * FROM congviec WHERE trangthai != -3 ORDER BY " +
+        "SELECT * FROM congviec WHERE trangthai != 6 ORDER BY " +
         column +
         " " +
         type;
@@ -27,7 +27,7 @@ exports.findAll = (req, res) => {
         // Trả về kết quả dưới dạng JSON
         // res.json(results);
         if (results.length == 0) {
-          return res.status(404).json({ error: "Không có công việc" });
+          return res.status(200).json({ error: "Không có công việc" });
         } else {
           res.json(results);
         }
@@ -36,7 +36,7 @@ exports.findAll = (req, res) => {
       req.query.hasOwnProperty("page") &&
       req.query.hasOwnProperty("limit")
     ) {
-      const query = `SELECT * FROM congviec WHERE trangthai != -3 LIMIT ${limit} OFFSET ${offset}`;
+      const query = `SELECT * FROM congviec WHERE trangthai != 6 LIMIT ${limit} OFFSET ${offset}`;
   
       connection.query(query, (err, results) => {
         if (err) {
@@ -52,7 +52,7 @@ exports.findAll = (req, res) => {
       });
     } else {
       // Thực hiện truy vấn
-      const query = 'SELECT * FROM congviec WHERE trangthai != -3';
+      const query = 'SELECT * FROM congviec WHERE trangthai != 6';
       connection.query(
         query,
         (err, results) => {
@@ -79,7 +79,7 @@ exports.findAll = (req, res) => {
 exports.findid = (req, res) => {
     const maCongViec = req.params.id;
     res.header("Access-Control-Allow-Origin", "*");
-    const query = "SELECT * FROM congviec WHERE macongviec = ? AND trangthai != -3";
+    const query = "SELECT * FROM congviec WHERE macongviec = ? AND trangthai != 6";
     // Thực hiện truy vấn
     connection.query(
       query,
@@ -216,7 +216,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     const maCongViec = req.params.id;
-    const TrangThai = -3;
+    const TrangThai = 6;
     const query = "UPDATE congviec SET TrangThai = ? WHERE MaCongViec = ?;";
     connection.query(query, [TrangThai, maCongViec], (error, results) => {
       if (error) {
@@ -543,7 +543,7 @@ exports.findNguoiDungByCongViec = (req, res) => {
 exports.findTaiLieuByCongViec = (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   const maCongViec = req.params.id;
-  const query = "SELECT * FROM tailieucv JOIN congviec_tailieucv ON tailieucv.MaTaiLieuCV = congviec_tailieucv.MaTaiLieuCV JOIN congviec ON congviec.MaCongViec = congviec_tailieucv.MaCongViec WHERE congviec_tailieucv.MaCongViec = '230620231910001704416' AND congviec_tailieucv.TrangThai != 6";
+  const query = "SELECT * FROM tailieucv JOIN congviec_tailieucv ON tailieucv.MaTaiLieuCV = congviec_tailieucv.MaTaiLieuCV JOIN congviec ON congviec.MaCongViec = congviec_tailieucv.MaCongViec WHERE congviec_tailieucv.MaCongViec = ? AND congviec_tailieucv.TrangThai != 6";
     // Thực hiện truy vấn
     connection.query(
       query,
@@ -555,7 +555,7 @@ exports.findTaiLieuByCongViec = (req, res) => {
         }
         // Trả về kết quả dưới dạng JSON
         if (results.length == 0) {
-          return res.status(404).json({ error: "Không có công việc" });
+          return res.status(404).json({ error: "Không có tài liệu cho công việc "+ maCongViec });
         } else {
           res.json(results);
         }
