@@ -35,11 +35,11 @@ router.delete("/xoaCongViecVinhVien/:id", congViecController.deleteVV);
 
 // Phân công công việc và tải lên tệp tin
 // id là mã công việc
-router.post("/phanCongCongViec/:id", congViecController.phanCongCongViec);
+router.post("/congviec/phanCongCongViec/:id", congViecController.phanCongCongViec);
 
 // Sửa phân công công việc và tải lên tệp tin
 // id là mã công việc
-router.put("/editPhanCongCongViec/:id", congViecController.editPhanCongCongViec);
+router.put("/congviec/editPhanCongCongViec/:id", congViecController.editPhanCongCongViec);
 
 
 // Retrieve 1 congviec; id là mã công việc
